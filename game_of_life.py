@@ -55,4 +55,4 @@ plt.show()
 
 # saving
 #ani.save('game_of_life.gif', writer='imagemagick')
-ani.save('game_of_life.mp4')
+ani.save('game_of_lifex.mp4')
