@@ -115,57 +115,34 @@ def merge_sort(arr):
         for another in lil_merge(R):
             R = another
             yield L + R
-        
+        arr = L + R
         
         i = j = k = 0
         while i < l and j < r: 
             if L[i] < R[j]: 
-                arr[k] = L[i]
+                arr[k], L[i] = L[i], arr[k]
                 i+=1
             else: 
-                arr[k] = R[j] 
+                arr[k], R[j] = R[j], arr[k] 
                 j+=1
             yield arr
             k+=1
         
         while i < l: 
-            arr[k] = L[i]
+            arr[k], L[i] = L[i], arr[k]
             yield arr
             i+=1
             k+=1
         while j < r: 
-            arr[k] = R[j]
-            if show: plot_arr(arr)
+            arr[k], R[j] = R[j], arr[k]
+            yield arr
             j+=1
             k+=1
     
-    length = len(arr)
-    if length < 2: return
-    l, r = length // 2, length - length // 2
-    L, R = arr[:l], arr[l:]
-    merge_sort(L, show=False); merge_sort(R, show=False)
-    
-    i = j = k = 0
-    while i < l and j < r: 
-        if L[i] < R[j]: 
-            arr[k] = L[i]
-            i+=1
-        else: 
-            arr[k] = R[j] 
-            j+=1
-        if show: plot_arr(arr)
-        k+=1
-    
-    while i < l: 
-        arr[k] = L[i]
-        if show: plot_arr(arr)
-        i+=1
-        k+=1
-    while j < r: 
-        arr[k] = R[j]
-        if show: plot_arr(arr)
-        j+=1
-        k+=1
+    for tmp in lil_merge(arr):
+        plot_arr(tmp)
+    for i, x in enumerate(tmp):
+        arr[i] = x
 
 def quick_sort(arr, lo=0, hi=None):
     """
