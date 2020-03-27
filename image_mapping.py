@@ -5,6 +5,11 @@ Created on Tue Jan 21 14:09:12 2020
 @author: DSU
 """
 
+"""
+# ipynb support
+%matplotlib qt
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
@@ -16,22 +21,24 @@ import matplotlib.animation as animation
 x = np.random.randint(0, high=255, size=(100, 100, 4), dtype=np.uint8)
 
 # display single image
-plt.imshow(x)
-
+#plt.imshow(x)
 
 # creating a gif
-fig = plt.gcf()
+fig = plt.figure()
+ax = plt.Axes(fig, [0., 0., 1., 1.])
+ax.set_axis_off()
+fig.add_axes(ax)
+plt.set_cmap('hot')
 
-# Show first image - which is the initial board
-im = plt.imshow(x)
+# initialization function: plot the background of each frame
+ims = []
+for i in range(60):
+    im = plt.imshow(np.random.randint(0, high=255, size=(100, 100, 4), dtype=np.uint8), aspect='equal')
+    ims.append([im])
 
-def animate(frame):
-    im.set_data(np.random.randint(0, high=255, size=(100, 100, 4), dtype=np.uint8))
-    return im,
-
-anim = animation.FuncAnimation(fig, animate, frames=200, 
-                               interval=50)
+ani = animation.ArtistAnimation(fig, ims, interval=60, blit=True)
 
 plt.show()
 
-anim.save('thingy.mp4')
+#ani.save('static.gif', writer='imagemagick')
+ani.save('static.mp4')
